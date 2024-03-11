@@ -3,45 +3,45 @@ import {BowlingScore} from './bowling.score';
 describe('BowlingScore', () => {
     let bowlingScore: BowlingScore;
 
-    it('should handle a simple frame without strikes or spares', () => {
+    it('Pas de strike ni de spare', () => {
         const frames = [3, 4]; // Pas de spare ni de strike
         bowlingScore = new BowlingScore(frames);
         expect(bowlingScore.calculateTotalScore()).toBe(7);
     });
 
-    it('should correctly calculate a spare and its bonus', () => {
-        const frames = [7, 3, 4]; // A spare in the first frame, followed by a 4
+    it('devrait calculer correctement un spare et son bonus', () => {
+        const frames = [7, 3, 4]; // Un spare dans le premier lancer, suivi d'un 4
         bowlingScore = new BowlingScore(frames);
-        expect(bowlingScore.calculateTotalScore()).toBe(18); // 10 (for the spare) + 4 (bonus) + 4
+        expect(bowlingScore.calculateTotalScore()).toBe(18);  // 10 (pour le spare) + 4 (bonus) + 4
     });
 
-    it('should correctly calculate a strike and its bonus', () => {
-        const frames = [10, 3, 6]; // A strike followed by a 3 and a 6
+    it('devrait calculer correctement un strike et son bonus', () => {
+        const frames = [10, 3, 6]; // Un strike suivi d'un 3 et d'un 6
         bowlingScore = new BowlingScore(frames);
-        expect(bowlingScore.calculateTotalScore()).toBe(28); // 10 (for the strike) + 9 (bonus) + 3 + 6
+        expect(bowlingScore.calculateTotalScore()).toBe(28);  // 10 (pour le strike) + 9 (bonus) + 3 + 6
     });
 
-    it('should handle consecutive strikes correctly', () => {
-        const frames = [10, 10, 3, 2]; // Two consecutive strikes followed by a 3 and 2
+    it('devrait gérer correctement des strikes consécutifs', () => {
+        const frames = [10, 10, 3, 2]; // Deux strikes consécutifs suivis d'un 3 et d'un 2
         bowlingScore = new BowlingScore(frames);
         expect(bowlingScore.calculateTotalScore()).toBe(43); // (10 + 10 + 3) + (10 + 3 + 2) + 3 + 2
     });
 
-    it('should handle a spare followed by a strike', () => {
-        const frames = [9, 1, 10, 3, 2]; // A spare followed by a strike and then a normal frame
+    it('devrait gérer un spare suivi d\'un strike', () => {
+        const frames = [9, 1, 10, 3, 2]; // Un spare suivi d'un strike puis d'une frame normale
         bowlingScore = new BowlingScore(frames);
         expect(bowlingScore.calculateTotalScore()).toBe(40); // (10 + 10) + (10 + 3 + 2) + 3 + 2
     });
 
-    it('should handle the last frame as a spare', () => {
-        const frames = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 9, 1, 5]; // Last frame is a spare with a bonus roll
+    it('devrait gérer la dernière frame comme un spare', () => {
+        const frames = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 9, 1, 5]; // La dernière frame est un spare avec un lancer bonus
         bowlingScore = new BowlingScore(frames);
-        expect(bowlingScore.calculateTotalScore()).toBe(20); // Last frame spare with a 5 bonus
+        expect(bowlingScore.calculateTotalScore()).toBe(20); // Dernière frame spare avec un bonus de 5
     });
 
-    it('should handle the last frame as a strike', () => {
-        const frames = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 10, 3, 2]; // Last frame is a strike with two bonus rolls
+    it('devrait gérer la dernière frame comme un strike', () => {
+        const frames = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 10, 3, 2]; // La dernière frame est un strike avec deux lancers bonus
         bowlingScore = new BowlingScore(frames);
-        expect(bowlingScore.calculateTotalScore()).toBe(20); // Last frame strike with a 3 and 2 bonus
+        expect(bowlingScore.calculateTotalScore()).toBe(20); // Dernière frame strike avec un bonus de 3 et 2
     });
 });
