@@ -44,4 +44,59 @@ describe('BowlingScore', () => {
         bowlingScore = new BowlingScore(frames);
         expect(bowlingScore.calculateTotalScore()).toBe(20); // Dernière frame strike avec un bonus de 3 et 2
     });
+    it('devrait gérer un jeu complet sans strikes ni spares', () => {
+        // Une partie complète sans aucun strike ni spare
+        const frames = [1, 0, 0, 1, 2, 2, 3, 3, 4, 4, 4, 5, 3, 6, 1, 7, 1, 8, 0, 9, 0, 0];
+        bowlingScore = new BowlingScore(frames);
+        expect(bowlingScore.calculateTotalScore()).toBe(64);
+    });
+
+    it('devrait gérer un jeu parfait (que des strikes)', () => {
+        // Un jeu parfait avec 12 strikes (10 frames + 2 bonus)
+        const frames = [10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10];
+        bowlingScore = new BowlingScore(frames);
+        expect(bowlingScore.calculateTotalScore()).toBe(300);
+    });
+
+    it('devrait valider les frames avec des valeurs négatives', () => {
+        // Test avec des valeurs négatives pour s'assurer que la validation des scores est gérée
+        const frames = [-1, 2, 3, 4];
+        bowlingScore = new BowlingScore(frames);
+        expect(() => bowlingScore.calculateTotalScore()).toThrow('Invalid frame score');
+    });
+
+    it('devrait valider les frames avec des scores de plus de 10', () => {
+        // Test avec un score de frame supérieur à 10 pour s'assurer que la validation est gérée
+        const frames = [11, 0, 3, 4];
+        bowlingScore = new BowlingScore(frames);
+        expect(() => bowlingScore.calculateTotalScore()).toThrow('Invalid frame score');
+    });
+
+    it('devrait gérer les spares dans la 10e frame correctement', () => {
+        // Test avec un spare dans la 10e frame, suivi d'un lancer bonus
+        const frames = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 5, 5, 10];
+        bowlingScore = new BowlingScore(frames);
+        expect(bowlingScore.calculateTotalScore()).toBe(20);
+    });
+
+    it('devrait gérer les strikes dans la 10e frame correctement', () => {
+        // Test avec un strike dans la 10e frame, suivi de deux lancers bonus
+        const frames = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 10, 7, 2];
+        bowlingScore = new BowlingScore(frames);
+        expect(bowlingScore.calculateTotalScore()).toBe(28);
+    });
+
+    it('devrait gérer une suite de spares', () => {
+        // Test avec une suite de spares pour vérifier que les bonus sont correctement calculés
+        const frames = [5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5];
+        bowlingScore = new BowlingScore(frames);
+        expect(bowlingScore.calculateTotalScore()).toBe(150);
+    });
+
+    it('devrait gérer des frames alternant strikes et spares', () => {
+        // Test avec des frames alternant strikes et spares
+        const frames = [10, 5, 5, 10, 5, 5, 10, 5, 5, 10, 5, 5, 10];
+        bowlingScore = new BowlingScore(frames);
+        expect(bowlingScore.calculateTotalScore()).toBe(200);
+    });
 });
