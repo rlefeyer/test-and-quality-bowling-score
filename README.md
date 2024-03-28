@@ -31,10 +31,10 @@ PROJET Mathéo Collina, Maxime Becker et Théo Delaporte
 ## Screenshots
 
 ### npm run test
-<img src="./img/test.png">
+<img src="./image/test.png">
 
 ### npm run test:cov
-<img src="./img/coverage.png">
+<img src="./image/coverage.png">
 
 ## Installation
 
